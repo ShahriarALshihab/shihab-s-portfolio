@@ -1,12 +1,27 @@
 "use client";
 import Brain from "@/components/ui/Brain";
 import BangladeshMap from "@/components/ui/BangladeshMap";
+import SkillsSection from "@/components/ui/SkillsSection";
 import { motion, useInView, useScroll } from "framer-motion";
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 const AboutPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("nav_to_bottom") === "true") {
+        sessionStorage.removeItem("nav_to_bottom");
+        const timer = setTimeout(() => {
+          if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+          }
+        }, 120);
+        return () => clearTimeout(timer);
+      }
+    } catch {}
+  }, []);
 
   const { scrollYProgress } = useScroll({ container: containerRef });
 
@@ -18,27 +33,6 @@ const AboutPage = () => {
 
   const locationRef = useRef<HTMLDivElement>(null);
   const isLocationRefInView = useInView(locationRef, { margin: "-100px" });
-
-  const skills = [
-    "JavaScript",
-    "TypeScript",
-    "React.js",
-    "Next.js",
-    "Tailwind CSS",
-    "Node.js",
-    "Express.js",
-    "NestJS",
-    "MongoDB",
-    "PostgreSQL",
-    "Firebase Auth",
-    "JWT",
-    "Better Auth",
-    "REST APIs",
-    "Git",
-    "GitHub",
-    "Axios",
-
-  ];
 
   return (
     <motion.div
@@ -114,20 +108,14 @@ const AboutPage = () => {
             >
               SKILLS
             </motion.h1>
-            {/* SKILL LIST */}
+            {/* SKILLS CARDS */}
             <motion.div
-              initial={{ x: "-300px" }}
-              animate={isSkillRefInView ? { x: 0 } : {}}
-              className="flex gap-4 flex-wrap"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isSkillRefInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="w-full"
             >
-              {skills.map((skill) => (
-                <div
-                  key={skill}
-                  className="rounded p-2 text-sm cursor-pointer bg-black text-white hover:bg-white hover:text-black"
-                >
-                  {skill}
-                </div>
-              ))}
+              <SkillsSection />
             </motion.div>
             {/* SKILL SCROLL SVG */}
             <motion.svg

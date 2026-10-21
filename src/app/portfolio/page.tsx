@@ -2,48 +2,52 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 const items = [
   {
     id: 1,
     color: "from-red-300 to-blue-300",
-    title: "MediCare Connect",
-    desc: "A comprehensive full-stack doctor appointment management platform featuring role-based dashboards, secure authentication, doctor slot scheduling, and patient records.",
-    img: "https://images.pexels.com/photos/18073372/pexels-photo-18073372/free-photo-of-young-man-sitting-in-a-car-on-a-night-street.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-    link: "https://medicare-client-a10.vercel.app/",
+    title: "ApplyDock",
+    desc: "An intelligent job application pipeline and interview command center for engineers. Features dual-engine Kanban and data grid tracking, automated interview countdowns, compensation benchmarking, and technical skill profiling.",
+    img: "/projects/applydock.png",
+    link: "https://applydock.vercel.app/",
   },
   {
     id: 2,
     color: "from-blue-300 to-violet-300",
-    title: "SunCart E-Commerce",
-    desc: "A modern full-stack e-commerce web platform with product filtering, dynamic cart management, user authentication, and responsive checkout flows.",
-    img: "https://images.pexels.com/photos/18023772/pexels-photo-18023772/free-photo-of-close-up-of-a-person-holding-a-wristwatch.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-    link: "https://sun-cart-ph-8req.vercel.app/",
+    title: "MediCare Connect",
+    desc: "A comprehensive full-stack doctor appointment management platform featuring role-based dashboards, secure authentication, doctor slot scheduling, and patient health records.",
+    img: "/projects/medicare-connect.png",
+    link: "https://medicare-client-a10.vercel.app/",
   },
   {
     id: 3,
     color: "from-violet-300 to-purple-300",
-    title: "MediCare API Server",
-    desc: "Scalable backend REST API built with Node.js, Express, and MongoDB, handling appointments, authentication, secure tokens, and doctor catalog services.",
-    img: "https://images.pexels.com/photos/6894528/pexels-photo-6894528.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load",
-    link: "https://github.com/ShahriarALshihab/medicareConnect-serverA10",
-  },
-  {
-    id: 4,
-    color: "from-purple-300 to-red-300",
-    title: "Full-Stack Portfolio",
-    desc: "Interactive developer portfolio powered by Next.js App Router, Framer Motion transitions, and modern Tailwind styling reproducing cutting-edge web animations.",
-    img: "https://images.pexels.com/photos/18540208/pexels-photo-18540208/free-photo-of-wood-landscape-water-hill.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    link: "https://github.com/ShahriarALshihab",
+    title: "SunCart",
+    desc: "A modern full-stack e-commerce web platform with dynamic product catalog filtering, persistent shopping cart management, secure user authentication, and responsive checkout flows.",
+    img: "/projects/sun-cart.png",
+    link: "https://sun-cart-ph-8req.vercel.app/",
   },
 ];
 
 const PortfolioPage = () => {
   const ref = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("nav_to_bottom") === "true") {
+        sessionStorage.removeItem("nav_to_bottom");
+        const timer = setTimeout(() => {
+          window.scrollTo(0, document.documentElement.scrollHeight);
+        }, 120);
+        return () => clearTimeout(timer);
+      }
+    } catch {}
+  }, []);
+
   const { scrollYProgress } = useScroll({ target: ref });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   return (
     <motion.div
@@ -52,7 +56,7 @@ const PortfolioPage = () => {
       animate={{ y: "0%" }}
       transition={{ duration: 1 }}
     >
-      <div className="h-[600vh] relative" ref={ref}>
+      <div className="h-[500vh] relative" ref={ref}>
         <div className="w-screen h-[calc(100vh-6rem)] flex items-center justify-center text-8xl text-center">
           My Works
         </div>
@@ -68,8 +72,15 @@ const PortfolioPage = () => {
                   <h1 className="text-xl font-bold md:text-4xl lg:text-6xl xl:text-8xl">
                     {item.title}
                   </h1>
-                  <div className="relative w-80 h-56 md:w-96 md:h-64 lg:w-[500px] lg:h-[350px] xl:w-[600px] xl:h-[420px]">
-                    <Image src={item.img} alt={item.title} fill className="object-cover" />
+                  <div className="relative w-80 h-56 md:w-96 md:h-64 lg:w-[500px] lg:h-[350px] xl:w-[600px] xl:h-[420px] rounded-lg overflow-hidden shadow-2xl border border-white/20">
+                    <Image
+                      src={item.img}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 320px, (max-width: 1024px) 384px, (max-width: 1280px) 500px, 600px"
+                      className="object-cover"
+                      priority={item.id === 1}
+                    />
                   </div>
                   <p className="w-80 md:w-96 lg:w-[500px] lg:text-lg xl:w-[600px]">
                     {item.desc}
@@ -80,7 +91,7 @@ const PortfolioPage = () => {
                     rel="noopener noreferrer"
                     className="flex justify-end"
                   >
-                    <button className="p-2 text-sm md:p-4 md:text-md lg:p-8 lg:text-lg bg-white text-gray-600 font-semibold m-4 rounded hover:bg-gray-100 transition-colors">
+                    <button className="p-2 text-sm md:p-4 md:text-md lg:p-8 lg:text-lg bg-white text-gray-600 font-semibold m-4 rounded hover:bg-gray-100 transition-colors cursor-pointer">
                       See Demo
                     </button>
                   </a>
