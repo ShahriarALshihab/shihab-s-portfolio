@@ -141,18 +141,19 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               Project Overview
             </h2>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed">
-              {project.description}
+              {project.details?.overview || project.description}
             </p>
           </div>
 
-          {project.highlights && project.highlights.length > 0 && (
+          {(project.details?.highlights || project.highlights) &&
+            (project.details?.highlights || project.highlights)!.length > 0 && (
             <div>
               <h2 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-purple-500" />
                 Key Architectural Highlights
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                {project.highlights.map((highlight, i) => (
+                {(project.details?.highlights || project.highlights)!.map((highlight: string, i: number) => (
                   <div
                     key={i}
                     className="flex items-start gap-3 p-4 rounded-2xl border border-slate-200 bg-slate-50/50"

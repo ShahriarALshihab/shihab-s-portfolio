@@ -2,37 +2,13 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useEffect } from "react";
-
-const items = [
-  {
-    id: 1,
-    color: "from-red-300 to-blue-300",
-    title: "ApplyDock",
-    desc: "An intelligent job application pipeline and interview command center for engineers. Features dual-engine Kanban and data grid tracking, automated interview countdowns, compensation benchmarking, and technical skill profiling.",
-    img: "/projects/applydock.png",
-    link: "https://applydock.vercel.app/",
-  },
-  {
-    id: 2,
-    color: "from-blue-300 to-violet-300",
-    title: "MediCare Connect",
-    desc: "A comprehensive full-stack doctor appointment management platform featuring role-based dashboards, secure authentication, doctor slot scheduling, and patient health records.",
-    img: "/projects/medicare-connect.png",
-    link: "https://medicare-client-a10.vercel.app/",
-  },
-  {
-    id: 3,
-    color: "from-violet-300 to-purple-300",
-    title: "SunCart",
-    desc: "A modern full-stack e-commerce web platform with dynamic product catalog filtering, persistent shopping cart management, secure user authentication, and responsive checkout flows.",
-    img: "/projects/sun-cart.png",
-    link: "https://sun-cart-ph-8req.vercel.app/",
-  },
-];
+import { useRef, useEffect, useState } from "react";
+import { projects, Project } from "@/data/projects";
+import ProjectModal from "@/components/ui/ProjectModal";
 
 const PortfolioPage = () => {
   const ref = useRef<HTMLDivElement>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     try {
@@ -63,12 +39,12 @@ const PortfolioPage = () => {
         <div className="sticky top-0 flex h-screen gap-4 items-center overflow-hidden">
           <motion.div style={{ x }} className="flex">
             <div className="h-screen w-screen flex items-center justify-center bg-gradient-to-r from-purple-300 to-red-300" />
-            {items.map((item) => (
+            {projects.map((item) => (
               <div
                 className={`h-screen w-screen flex items-center justify-center bg-gradient-to-r ${item.color}`}
                 key={item.id}
               >
-                <div className="flex flex-col gap-8 text-white">
+                <div className="flex flex-col gap-6 md:gap-8 text-white px-4">
                   <h1 className="text-xl font-bold md:text-4xl lg:text-6xl xl:text-8xl">
                     {item.title}
                   </h1>
@@ -83,18 +59,25 @@ const PortfolioPage = () => {
                     />
                   </div>
                   <p className="w-80 md:w-96 lg:w-[500px] lg:text-lg xl:w-[600px]">
-                    {item.desc}
+                    {item.description}
                   </p>
-                  <a
-                    href={item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex justify-end"
-                  >
-                    <button className="p-2 text-sm md:p-4 md:text-md lg:p-8 lg:text-lg bg-white text-gray-600 font-semibold m-4 rounded hover:bg-gray-100 transition-colors cursor-pointer">
-                      See Demo
+                  <div className="flex justify-end gap-3 items-center flex-wrap pt-2">
+                    <button
+                      onClick={() => setSelectedProject(item)}
+                      className="px-4 py-2.5 text-sm md:px-6 md:py-3 md:text-base lg:px-7 lg:py-3.5 lg:text-lg bg-white/20 hover:bg-white text-white hover:text-gray-900 font-semibold rounded-lg transition-all duration-200 border border-white/40 backdrop-blur-xs cursor-pointer shadow-sm active:scale-95"
+                    >
+                      Project Details
                     </button>
-                  </a>
+                    <a
+                      href={item.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <button className="px-4 py-2.5 text-sm md:px-6 md:py-3 md:text-base lg:px-7 lg:py-3.5 lg:text-lg bg-white text-gray-700 font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200 cursor-pointer shadow-md active:scale-95">
+                        See Demo
+                      </button>
+                    </a>
+                  </div>
                 </div>
               </div>
             ))}
@@ -130,6 +113,13 @@ const PortfolioPage = () => {
           </Link>
         </div>
       </div>
+
+      {/* Project Details Modal */}
+      <ProjectModal
+        project={selectedProject}
+        isOpen={selectedProject !== null}
+        onClose={() => setSelectedProject(null)}
+      />
     </motion.div>
   );
 };

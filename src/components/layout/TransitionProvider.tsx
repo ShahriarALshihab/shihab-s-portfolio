@@ -93,6 +93,11 @@ const TransitionProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const handleWheel = (e: WheelEvent) => {
+      // If a modal dialog is currently open, disable full-page scroll transitions
+      if (document.querySelector('[role="dialog"]')) {
+        return;
+      }
+
       const currentIndex = routes.indexOf(pathName);
       if (currentIndex === -1) return;
 

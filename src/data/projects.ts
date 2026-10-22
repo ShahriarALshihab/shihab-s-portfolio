@@ -1,3 +1,13 @@
+export interface ProjectDetails {
+  overview: string;
+  features: string[];
+  frontendTech: string[];
+  backendTech: string[];
+  databaseAuth: string[];
+  integrations?: string[];
+  highlights: string[];
+}
+
 export interface Project {
   id: number;
   slug: string;
@@ -11,12 +21,13 @@ export interface Project {
   serverRepo?: string;
   category: string;
   featured: boolean;
-  highlights?: string[];
   role?: string;
   timeline?: string;
   /** Gradient for the horizontal-scroll portfolio cards (reference style) */
   color: string;
-  img?: string;
+  img: string;
+  highlights?: string[];
+  details: ProjectDetails;
 }
 
 export const projects: Project[] = [
@@ -32,17 +43,51 @@ export const projects: Project[] = [
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "PostgreSQL", "Drizzle ORM", "NextAuth", "Zod"],
     liveUrl: "https://applydock.vercel.app/",
     githubRepo: "https://github.com/ShahriarALshihab/applydock",
-    category: "Full Stack",
+    category: "Full Stack Web Application",
     featured: true,
     role: "Full Stack Developer",
     timeline: "2025",
     img: "/projects/applydock.png",
-    highlights: [
-      "Adaptive Kanban board & high-density data grid with zero forced horizontal scrolling",
-      "Automated interview countdown milestones & real-time search and filter engine",
-      "Structured compensation benchmarking and 1–5 technical skill gap profiling",
-      "Type-safe database architecture using PostgreSQL and Drizzle ORM",
-    ],
+    details: {
+      overview:
+        "ApplyDock is a disciplined career workspace designed for high-stakes engineers. It unites reactive Kanban stages, high-density tabular search, automated countdown badges for upcoming interviews, and structured compensation benchmarking into an isolated, privacy-first web application.",
+      features: [
+        "Dual-engine pipeline: 6-stage adaptive Kanban board (Wishlist, Applied, Screening, Interview, Offer, Rejected/Withdrawn) with zero forced horizontal scrolling",
+        "High-density data grid with real-time keyword search, work-mode filtering (Hybrid, Remote, On-site), and column sorting",
+        "Slide-over inspector drawer showing job specs, recruiter contacts, technical skill indicators, and private notes",
+        "Automated interview countdown milestones with overdue warning badges",
+        "Structured compensation benchmarking with BDT (৳) base and bonus tracking",
+        "RFC 4180 compliant CSV export and isolated Supabase database privacy",
+      ],
+      frontendTech: [
+        "Next.js (App Router)",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "Lucide React",
+        "Next Themes",
+      ],
+      backendTech: [
+        "Next.js Server Actions",
+        "Route Handlers",
+        "Zod Schema Validation",
+        "bcryptjs",
+      ],
+      databaseAuth: [
+        "PostgreSQL",
+        "Drizzle ORM",
+        "NextAuth (Auth.js) with Drizzle Adapter",
+      ],
+      integrations: [
+        "Supabase / PostgreSQL connection",
+        "RFC 4180 CSV Exporter",
+      ],
+      highlights: [
+        "Engineered type-safe database schemas and migrations with Drizzle ORM and PostgreSQL",
+        "Designed high-density, zero-forced-scroll Kanban UI optimized for rapid application tracking",
+        "Implemented secure session authentication and role-safe middleware with NextAuth",
+      ],
+    },
   },
   {
     id: 2,
@@ -50,24 +95,71 @@ export const projects: Project[] = [
     color: "from-blue-300 to-violet-300",
     title: "MediCare Connect",
     shortDescription:
-      "A full-stack healthcare platform connecting patients with medical services.",
+      "A full-stack healthcare platform connecting patients with medical services and doctor appointments.",
     description:
-      "MediCare Connect is a comprehensive healthcare web application that allows users to browse medical services, book appointments, and manage their health records. Built with a React frontend and a Node.js/Express backend with MongoDB.",
-    tech: ["React", "Node.js", "Express.js", "MongoDB", "Firebase Auth", "JWT"],
+      "MediCare Connect is a comprehensive healthcare platform enabling patients to discover specialist doctors, book and manage real-time appointments, process payments securely, and review health visit records. Built with Next.js, Node.js/Express, MongoDB, Firebase Auth, and Stripe.",
+    tech: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Express.js",
+      "MongoDB",
+      "Firebase Auth",
+      "JWT",
+      "Stripe",
+    ],
     liveUrl: "https://medicare-client-a10.vercel.app/",
     clientRepo: "https://github.com/ShahriarALshihab/medicare-clientA10",
     serverRepo: "https://github.com/ShahriarALshihab/medicareConnect-serverA10",
-    category: "Full Stack",
+    category: "Full Stack Healthcare Platform",
     featured: true,
     role: "Full Stack Lead Developer",
     timeline: "2024",
     img: "/projects/medicare-connect.png",
-    highlights: [
-      "Real-time appointment scheduling and slot booking engine",
-      "Secure patient authentication with Firebase Auth & JWT authorization",
-      "Medical records management and responsive patient dashboard",
-      "RESTful API architecture with MongoDB database indexing",
-    ],
+    details: {
+      overview:
+        "MediCare Connect simplifies healthcare access by bridging patients and medical specialists through a unified booking platform. Patients can explore doctor profiles by specialty, book available consultation slots, pay fees securely, and manage their appointment timeline from a personal dashboard.",
+      features: [
+        "Specialist doctor discovery with instant search by name, department, and available schedules",
+        "Real-time appointment slot booking engine with conflict prevention and cancellation controls",
+        "Secure online payment gateway integration powered by Stripe",
+        "Personal patient dashboard to track active bookings, payment receipts, and profile settings",
+        "Visual health statistics and appointment analytics with Recharts",
+      ],
+      frontendTech: [
+        "Next.js 14",
+        "React 18",
+        "Tailwind CSS",
+        "DaisyUI",
+        "Axios",
+        "Framer Motion",
+        "Recharts",
+        "React Icons",
+      ],
+      backendTech: [
+        "Node.js",
+        "Express.js (v5)",
+        "RESTful API Architecture",
+        "JWT (jsonwebtoken)",
+        "Cookie Parser",
+        "CORS",
+      ],
+      databaseAuth: [
+        "MongoDB",
+        "Mongoose ODM",
+        "Firebase Authentication (Email & Google)",
+        "Firebase Admin SDK",
+      ],
+      integrations: [
+        "Stripe Payment Gateway (@stripe/stripe-js, @stripe/react-stripe-js)",
+        "Firebase Auth SDK",
+      ],
+      highlights: [
+        "Developed scalable RESTful API endpoints with Express.js and optimized MongoDB queries with indexing",
+        "Architected dual-layer authentication using Firebase on client and verified JWT tokens on backend",
+        "Integrated Stripe payment processing with automated payment verification workflows",
+      ],
+    },
   },
   {
     id: 3,
@@ -75,23 +167,62 @@ export const projects: Project[] = [
     color: "from-violet-300 to-purple-300",
     title: "SunCart",
     shortDescription:
-      "A modern e-commerce platform with a sleek shopping experience.",
+      "A modern summer-themed e-commerce platform with authenticated shopping and profile management.",
     description:
-      "SunCart is a feature-rich e-commerce web application featuring product listings, cart management, user authentication, and a smooth checkout experience. Built with React on the frontend and powered by a robust backend.",
-    tech: ["React", "Node.js", "Express.js", "MongoDB", "JWT"],
+      "SunCart is a feature-packed e-commerce web application where users can explore seasonal product collections, view protected product details, manage shopping carts, and update their customer profile. Built with Next.js 16, Prisma ORM, Better Auth, and Tailwind CSS v4.",
+    tech: [
+      "Next.js 16",
+      "React 19",
+      "Tailwind CSS v4",
+      "Prisma ORM",
+      "Better Auth",
+      "DaisyUI",
+    ],
     liveUrl: "https://sun-cart-ph-8req.vercel.app/",
     githubRepo: "https://github.com/ShahriarALshihab/sunCartPH",
-    category: "Full Stack",
+    category: "Full Stack E-Commerce",
     featured: true,
     role: "Full Stack Developer",
     timeline: "2024",
     img: "/projects/sun-cart.png",
-    highlights: [
-      "Dynamic product catalog with instant filtering and search",
-      "Persistent shopping cart with synchronized state management",
-      "Secure checkout flow and role-based administrative controls",
-      "RESTful backend API with optimized MongoDB queries",
-    ],
+    details: {
+      overview:
+        "SunCart provides a fast, modern shopping experience for seasonal essentials. Built with Next.js 16 and Prisma ORM, it features dynamic product listings, route-protected product detail pages, seamless session authentication via Better Auth, and interactive visual feedback.",
+      features: [
+        "Dynamic product catalog showcasing seasonal items with filtering and responsive cards",
+        "Protected product details view restricted to authenticated users",
+        "Dedicated customer profile page with account settings and update options",
+        "Modern hero section with active promotional offers and featured product spotlights",
+        "Engaging micro-interactions and animated UI elements powered by Lottie React",
+      ],
+      frontendTech: [
+        "Next.js 16 (Turbopack)",
+        "React 19",
+        "Tailwind CSS v4",
+        "DaisyUI",
+        "Lottie React",
+        "React Hot Toast",
+      ],
+      backendTech: [
+        "Next.js Server Actions & API Handlers",
+        "Prisma ORM",
+        "TypeScript",
+      ],
+      databaseAuth: [
+        "Relational Database (PostgreSQL/SQLite)",
+        "Prisma Client",
+        "Better Auth (Email/Password & Google OAuth)",
+      ],
+      integrations: [
+        "Better Auth Authentication Engine",
+        "Prisma Data Modeling Client",
+      ],
+      highlights: [
+        "Built full-stack Next.js 16 application with Prisma ORM data modeling",
+        "Implemented multi-provider authentication (Google OAuth & Email) using Better Auth",
+        "Designed modern, responsive shopping interface using Tailwind CSS v4 and DaisyUI",
+      ],
+    },
   },
 ];
 
